@@ -17,7 +17,7 @@ class ProjectAgent:
         self.model.save(path)
 
     def load(self):
-        self.model = DQN.load("/home/onyxia/work/mva-rl-assignment-eliott-esiee/models/dqn_hiv_model", env=self.env)
+        self.model = DQN.load("./dqn_hiv_model", env=self.env)
 
     def train(self, total_timesteps):
         self.model.learn(total_timesteps=total_timesteps)
