@@ -1,21 +1,23 @@
+from stable_baselines3 import DQN
 from gymnasium.wrappers import TimeLimit
 from env_hiv import HIVPatient
 
-env = TimeLimit(
-    env=HIVPatient(domain_randomization=False), max_episode_steps=200
-)  # The time wrapper limits the number of steps in an episode at 200.
-# Now is the floor is yours to implement the agent and train it.
-
-
-# You have to implement your own agent.
-# Don't modify the methods names and signatures, but you can add methods.
-# ENJOY!
 class ProjectAgent:
+    def __init__(self):
+        self.env = TimeLimit(HIVPatient(domain_randomization=False), max_episode_steps=200)
+        self.model = DQN("MlpPolicy", self.env, learning_rate=1e-3, buffer_size=10000, batch_size=64, verbose=1)
+
     def act(self, observation, use_random=False):
-        return 0
+        action, _states = self.model.predict(observation, deterministic=not use_random)
+        return action
 
     def save(self, path):
-        pass
+        self.model.save(path)
 
     def load(self):
+        self.model = DQN.load("dqn_hiv_model", env=self.env)
+
+    def train(self, total_timesteps):
+        self.model.learn(total_timesteps=total_timesteps)
+
         pass
