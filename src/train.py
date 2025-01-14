@@ -4,14 +4,7 @@ from gymnasium.wrappers import TimeLimit
 from env_hiv import HIVPatient
 import torch.nn as nn
 
-# def make_env(seed):
 
-#     def _init():
-        # env = TimeLimit(HIVPatient(domain_randomization=False), max_episode_steps=200)
-#         env.seed(seed)
-#         return env
-
-#     return _init
 def make_env():
 
     def _init():
@@ -25,7 +18,6 @@ class ProjectAgent:
 
     def __init__(self, num_envs=20):
 
-        # env_fns = [make_env(seed=i) for i in range(num_envs)]
         self.env = SubprocVecEnv([make_env() for _ in range(num_envs)])
 
         self.model = DQN(
@@ -51,12 +43,12 @@ class ProjectAgent:
         self.model.save(path)
 
     def load(self):
-        self.model = DQN.load("dqn_hiv_model_3", env=self.env)
+        self.model = DQN.load("dqn_hiv_model_4", env=self.env)
 
     def train(self, total_timesteps):
         self.model.learn(total_timesteps=total_timesteps)
-        self.save("/home/onyxia/work/mva-rl-assignment-eliott-esiee/models/dqn_hiv_model_3")
+        self.save("/home/onyxia/work/mva-rl-assignment-eliott-esiee/models/dqn_hiv_model_4")
 
 if __name__ == '__main__':
     agent = ProjectAgent()
-    agent.train(total_timesteps=1000000)
+    agent.train(total_timesteps=4000000)
