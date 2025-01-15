@@ -29,7 +29,7 @@ class ProjectAgent:
             learning_rate=1e-3, 
             batch_size=128,
             policy_kwargs = {
-                "net_arch": [256, 256, 256, 256],  
+                "net_arch": [256, 256, 256, 256, 256],  
                 "activation_fn": nn.ReLU
             },
             tau=0.02,
@@ -43,11 +43,11 @@ class ProjectAgent:
         self.model.save(path)
 
     def load(self):
-        self.model = DQN.load("dqn_hiv_model_3", env=self.env)
+        self.model = DQN.load("dqn_hiv_model_8", env=self.env)
 
     def train(self, total_timesteps):
         self.model.learn(total_timesteps=total_timesteps)
-        self.save("/home/onyxia/work/mva-rl-assignment-eliott-esiee/models/dqn_hiv_model_3")
+        self.save("/home/onyxia/work/mva-rl-assignment-eliott-esiee/models/dqn_hiv_model_8")
 
 if __name__ == '__main__':
     agent = ProjectAgent()
